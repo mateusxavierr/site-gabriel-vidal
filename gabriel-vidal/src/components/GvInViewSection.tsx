@@ -14,7 +14,7 @@ type GvInViewSectionProps = {
 }
 
 /**
- * Section simples usada no Hero; a revelação por scroll fica nos filhos via `useGvReveal`.
+ * Section simples usada no Hero; use `useGvHeroReveal` (um observer) ou `useGvReveal` por elemento.
  */
 export function GvInViewSection({ id, className, children }: GvInViewSectionProps) {
   return (
@@ -54,4 +54,36 @@ export function useGvReveal() {
   }, [])
 
   return { isVisible, revealProps: { ref: setRef } }
+}
+
+/**
+ * Uma única interseção + um setState no Hero: evita 3 re-renders no mobile ao revelar
+ * título, parágrafo e CTA. Os atrasos continuam vindo do CSS (delay-200, delay-350, etc.).
+ */
+export function useGvHeroReveal() {
+  const [isVisible, setIsVisible] = useState(false)
+  const observerRef = useRef<IntersectionObserver | null>(null)
+
+  const setRef: RefCallback<HTMLElement> = useCallback((node) => {
+    observerRef.current?.disconnect()
+    observerRef.current = null
+    if (!node) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true)
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: defaultObserverOptions.threshold, rootMargin: defaultObserverOptions.rootMargin },
+    )
+
+    observer.observe(node)
+    observerRef.current = observer
+  }, [])
+
+  return { isVisible, contentRef: { ref: setRef } }
 }
