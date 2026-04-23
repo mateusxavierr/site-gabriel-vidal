@@ -3,7 +3,7 @@
 import { siteContent } from "@/content/site"
 import { useInView } from "@/hooks/useInView"
 import { ArrowRight, Ban, Car, FileWarning, MessageCircle, Scale, ShieldCheck } from "lucide-react"
-import { useState } from "react"
+import { useRef } from "react"
 import { cn } from "@/lib/utils"
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -20,11 +20,11 @@ export function Servicos() {
 
   return (
     <section id="atuacao" className="section-card p-8 md:p-16 lg:p-24 bg-slate-50" ref={ref}>
-      <div className="mb-16 gv-animate-on-scroll">
-        <span className="text-xs font-label uppercase tracking-widest text-slate-500 block mb-2">
+      <div className="mb-16">
+        <span className="text-xs font-label uppercase tracking-widest text-slate-500 block mb-2 gv-animate-on-scroll">
           {siteContent.atuacao.subtitle}
         </span>
-        <h2 className="text-4xl md:text-5xl font-display font-semibold tracking-tight text-slate-900 mb-6">
+        <h2 className="text-4xl md:text-5xl font-display font-semibold tracking-tight text-slate-900 mb-6 pb-2 gv-clip-on-scroll delay-100">
           {siteContent.atuacao.title}
         </h2>
       </div>
@@ -51,44 +51,63 @@ export function Servicos() {
 }
 
 function ServiceCard({ service, index }: { service: any, index: number }) {
-  const [transform, setTransform] = useState("perspective(800px) rotateY(0) rotateX(0) translateZ(0)")
+  const cardRef = useRef<HTMLDivElement>(null)
+  const rafRef = useRef<number | null>(null)
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    const x = (e.clientX - rect.left) / rect.width - 0.5
-    const y = (e.clientY - rect.top) / rect.height - 0.5
-    setTransform(`perspective(800px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateZ(10px)`)
+    const card = cardRef.current
+    if (!card) return
+
+    const clientX = e.clientX
+    const clientY = e.clientY
+
+    // Cancelar o frame anterior se ainda não foi executado
+    if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
+
+    rafRef.current = requestAnimationFrame(() => {
+      const rect = card.getBoundingClientRect()
+      const x = (clientX - rect.left) / rect.width - 0.5
+      const y = (clientY - rect.top) / rect.height - 0.5
+      // Manipulação direta do DOM — zero re-renders do React
+      card.style.transform = `perspective(800px) rotateY(${x * 15}deg) rotateX(${-y * 15}deg) scale(1.05)`
+    })
   }
 
   const handleMouseLeave = () => {
-    setTransform("perspective(800px) rotateY(0) rotateX(0) translateZ(0)")
+    if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
+    const card = cardRef.current
+    if (!card) return
+    card.style.transform = "perspective(800px) rotateY(0) rotateX(0) scale(1)"
   }
 
   return (
     <div 
-      className={cn(
-        "gv-animate-on-scroll bg-white p-8 rounded-2xl border border-transparent shadow-sm transition-[box-shadow,border-color] duration-300 hover:shadow-[0_16px_40px_rgba(255,199,138,0.3)] hover:border-brand-gold/50 cursor-pointer h-full flex flex-col group"
-      )}
-      style={{
-        animationDelay: `${(index % 3) * 150}ms`,
-        transformStyle: "preserve-3d",
-        transform
-      }}
+      className="gv-animate-on-scroll cursor-pointer h-full flex flex-col group z-10 hover:z-20"
+      style={{ transitionDelay: `${index * 120}ms` }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
-      <div 
-        className="w-12 h-12 bg-brand-navy group-hover:bg-[#003388] transition-colors duration-300 rounded-xl flex items-center justify-center text-brand-gold mb-6"
-        style={{ transform: "translateZ(20px)" }}
+      <div
+        ref={cardRef}
+        className="w-full h-full flex flex-col p-8 bg-white rounded-2xl border border-transparent shadow-sm hover:shadow-[0_16px_40px_rgba(255,199,138,0.3)] hover:border-brand-gold/50 transition-[transform,box-shadow,border-color] ease-out"
+        style={{
+          transformStyle: "preserve-3d",
+          transitionDuration: "300ms",
+        }}
       >
-        {iconMap[service.icon]}
+        <div 
+          className="w-12 h-12 bg-brand-navy group-hover:bg-[#003388] transition-colors duration-300 rounded-xl flex items-center justify-center text-brand-gold mb-6"
+          style={{ transform: "translateZ(30px)" }}
+        >
+          {iconMap[service.icon]}
+        </div>
+        <h4 className="text-xl font-display font-semibold text-slate-900 mb-4" style={{ transform: "translateZ(20px)" }}>
+          {service.title}
+        </h4>
+        <p className="text-slate-600 text-sm leading-relaxed flex-1 font-body" style={{ transform: "translateZ(10px)" }}>
+          {service.description}
+        </p>
       </div>
-      <h4 className="text-xl font-display font-semibold text-slate-900 mb-4" style={{ transform: "translateZ(10px)" }}>
-        {service.title}
-      </h4>
-      <p className="text-slate-600 text-sm leading-relaxed flex-1 font-body" style={{ transform: "translateZ(5px)" }}>
-        {service.description}
-      </p>
     </div>
   )
 }

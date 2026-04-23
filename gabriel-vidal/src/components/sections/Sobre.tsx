@@ -26,7 +26,7 @@ export function Sobre() {
         </div>
 
         {/* Left: Image / Photo */}
-        <div className="lg:col-span-5 flex flex-col justify-center order-2 lg:order-1 gv-animate-on-scroll">
+        <div className="lg:col-span-5 flex flex-col justify-center order-2 lg:order-1 gv-animate-on-scroll delay-100">
           <div className="relative w-full aspect-[4/3] lg:aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-surface-dark">
             <Image
               src={withBasePath("/images/vidal.jpeg")}
@@ -59,13 +59,13 @@ export function Sobre() {
             {siteContent.sobre.name}
           </h3>
           
-          <div className="space-y-5 text-lg text-slate-300 leading-relaxed mb-10 font-body gv-animate-on-scroll delay-500">
+          <div className="space-y-5 text-lg text-slate-300 leading-relaxed mb-10 font-body">
             {siteContent.sobre.bio.map((paragraph, i) => (
-              <p key={i}>{paragraph}</p>
+              <p key={i} className="gv-animate-on-scroll" style={{ transitionDelay: `${i * 120 + 400}ms` }}>{paragraph}</p>
             ))}
           </div>
           
-          <div className="gv-animate-on-scroll delay-500">
+          <div className="gv-animate-on-scroll delay-600">
             <a
               href={`https://wa.me/${siteContent.contact.phoneClean}?text=${encodeURIComponent(siteContent.contact.whatsappMessage)}`}
               target="_blank"

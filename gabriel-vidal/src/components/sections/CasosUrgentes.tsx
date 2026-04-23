@@ -11,8 +11,8 @@ export function CasosUrgentes() {
     <section id="casos-urgentes" className="section-card p-8 md:p-16 lg:p-24 dark relative" ref={ref}>
       <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-brand-gold/10 rounded-full blur-[100px] pointer-events-none translate-x-1/3 -translate-y-1/4" />
 
-      <div className="mb-16 gv-animate-on-scroll text-center md:text-left z-10 relative">
-        <h2 className="text-4xl md:text-5xl font-display font-semibold tracking-tight text-white mb-6">
+      <div className="mb-16 text-center md:text-left z-10 relative">
+        <h2 className="text-4xl md:text-5xl font-display font-semibold tracking-tight text-white mb-6 gv-clip-on-scroll">
           {siteContent.casosUrgentes.title}
         </h2>
       </div>
@@ -22,7 +22,7 @@ export function CasosUrgentes() {
           <div 
             key={index} 
             className="gv-animate-on-scroll bg-white text-slate-900 border border-slate-100 p-8 rounded-2xl flex flex-col h-full shadow-[0_8px_24px_rgba(0,0,0,0.2)]"
-            style={{ animationDelay: `${index * 150}ms` }}
+            style={{ transitionDelay: `${index * 150}ms` }}
           >
             {item.badge && (
               <span className="inline-block px-3 py-1 bg-brand-gold text-brand-navy text-[10px] font-label font-semibold uppercase tracking-widest rounded-full w-fit mb-6">

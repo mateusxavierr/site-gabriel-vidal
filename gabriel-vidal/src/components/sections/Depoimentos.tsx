@@ -9,8 +9,8 @@ export function Depoimentos() {
 
   return (
     <section className="section-card p-8 md:p-16 lg:p-24 relative overflow-hidden bg-white" ref={ref as any}>
-      <div className="mb-16 gv-animate-on-scroll text-center z-10 relative">
-        <h2 className="text-4xl md:text-5xl font-display font-semibold tracking-tight text-slate-900 mb-6">
+      <div className="mb-16 text-center z-10 relative">
+        <h2 className="text-4xl md:text-5xl font-display font-semibold tracking-tight text-slate-900 mb-6 gv-clip-on-scroll">
           {siteContent.depoimentos.title}
         </h2>
       </div>
@@ -20,7 +20,7 @@ export function Depoimentos() {
           <div 
             key={index} 
             className="gv-animate-on-scroll bg-brand-blue border-x border-b border-white/10 border-t-2 border-t-brand-gold p-8 rounded-2xl flex flex-col h-full shadow-card"
-            style={{ animationDelay: `${index * 150}ms` }}
+            style={{ transitionDelay: `${index * 150}ms` }}
           >
             <div className="flex gap-1 text-brand-gold mb-6">
               {[1, 2, 3, 4, 5].map((star) => (

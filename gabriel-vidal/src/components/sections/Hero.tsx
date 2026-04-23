@@ -1,15 +1,18 @@
 "use client"
 
+import { GvInViewSection, useGvReveal } from "@/components/GvInViewSection"
 import { siteContent } from "@/content/site"
 import { withBasePath } from "@/lib/basePath"
-import { useInView } from "@/hooks/useInView"
+import { cn } from "@/lib/utils"
 import { ArrowRight } from "lucide-react"
 
 export function Hero() {
-  const ref = useInView()
+  const tH1 = useGvReveal()
+  const tP = useGvReveal()
+  const tCta = useGvReveal()
 
   return (
-    <section id="hero" className="section-card p-8 md:p-16 lg:p-24 min-h-[85vh] flex items-center relative overflow-hidden bg-white" ref={ref}>
+    <GvInViewSection id="hero" className="section-card p-8 md:p-16 lg:p-24 min-h-[85vh] flex items-center relative overflow-hidden bg-white">
       {/* Background Video */}
       <div 
         className="hidden lg:block absolute top-0 right-0 bottom-0 w-full lg:w-[70%] z-0 pointer-events-none overflow-hidden"
@@ -37,16 +40,34 @@ export function Hero() {
         
         {/* Left: Content */}
         <div className="lg:col-span-7 xl:col-span-6 flex flex-col justify-center max-lg:pt-12 sm:max-lg:pt-14">
-          <h1 className="text-4xl md:text-5xl lg:text-[52px] font-display font-bold text-slate-900 tracking-tighter leading-[1.1] mb-6 gv-clip-on-scroll delay-200">
+          <h1
+            className={cn(
+              "text-4xl md:text-5xl lg:text-[52px] font-display font-bold text-slate-900 tracking-tighter leading-[1.1] mb-6 gv-clip-on-scroll delay-200",
+              tH1.isVisible && "is-visible"
+            )}
+            {...tH1.revealProps}
+          >
             Escritório de Advocacia especializado em <br/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-gold to-brand-goldhover">Direito de Trânsito</span>
           </h1>
           
-          <p className="text-lg text-slate-600 leading-relaxed mb-10 max-w-lg font-body gv-animate-on-scroll delay-350">
+          <p
+            className={cn(
+              "text-lg text-slate-600 leading-relaxed mb-10 max-w-lg font-body gv-animate-on-scroll delay-350",
+              tP.isVisible && "is-visible"
+            )}
+            {...tP.revealProps}
+          >
             {siteContent.hero.description}
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 gv-animate-on-scroll delay-500">
+          <div
+            className={cn(
+              "flex flex-col sm:flex-row gap-4 gv-animate-on-scroll delay-500",
+              tCta.isVisible && "is-visible"
+            )}
+            {...tCta.revealProps}
+          >
             <a
               href={`https://wa.me/${siteContent.contact.phoneClean}`}
               target="_blank"
@@ -70,6 +91,6 @@ export function Hero() {
         </div>
         
       </div>
-    </section>
+    </GvInViewSection>
   )
 }

@@ -53,7 +53,7 @@ export function Credenciais() {
       <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 divide-y md:divide-y-0 md:divide-x divide-white/10 text-center">
           {siteContent.provas.metrics.map((metric, index) => (
-            <div key={index} className="flex flex-col items-center justify-center py-4 md:py-0 gv-animate-on-scroll" style={{ animationDelay: `${index * 150}ms` }}>
+            <div key={index} className={`flex flex-col items-center justify-center py-4 md:py-0 gv-animate-on-scroll delay-${(index + 1) * 100}`}>
               {/* Desktop: Animado */}
               <span 
                 className="hidden md:block text-4xl md:text-5xl font-display font-bold text-brand-gold mb-2"

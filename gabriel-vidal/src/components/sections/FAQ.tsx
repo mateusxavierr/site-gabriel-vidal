@@ -15,14 +15,14 @@ export function FAQ() {
       <div className="grid lg:grid-cols-12 gap-12 lg:gap-24">
         
         {/* Left: Heading */}
-        <div className="lg:col-span-5 gv-animate-on-scroll">
-          <span className="text-xs font-label uppercase tracking-widest text-slate-500 block mb-4">
+        <div className="lg:col-span-5">
+          <span className="text-xs font-label uppercase tracking-widest text-slate-500 block mb-4 gv-animate-on-scroll">
             {siteContent.faq.title}
           </span>
-          <h2 className="text-4xl md:text-5xl font-display font-semibold tracking-tight text-slate-900 mb-6">
+          <h2 className="text-4xl md:text-5xl font-display font-semibold tracking-tight text-slate-900 mb-6 gv-clip-on-scroll delay-100">
             {siteContent.faq.subtitle}
           </h2>
-          <p className="text-slate-600 font-body leading-relaxed mb-8">
+          <p className="text-slate-600 font-body leading-relaxed mb-8 gv-animate-on-scroll delay-200">
             Tire suas principais dúvidas sobre o processo de defesa e nossos serviços.
           </p>
         </div>
@@ -36,7 +36,7 @@ export function FAQ() {
               <div 
                 key={index} 
                 className="gv-animate-on-scroll border border-slate-200 rounded-2xl overflow-hidden bg-slate-50"
-                style={{ animationDelay: `${index * 100}ms` }}
+                style={{ transitionDelay: `${index * 80}ms` }}
               >
                 <button
                   className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 hover:bg-slate-100 transition-colors"

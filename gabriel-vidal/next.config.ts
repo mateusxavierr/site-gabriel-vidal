@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_BASE_PATH: siteBasePath,
   },
+  allowedDevOrigins: ["192.168.15.2"],
   turbopack: {
     root: projectRoot,
   },

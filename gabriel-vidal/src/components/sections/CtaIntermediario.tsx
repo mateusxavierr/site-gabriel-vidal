@@ -16,11 +16,11 @@ export function CtaIntermediario() {
           Precisa de ajuda urgente com a sua CNH?
         </h2>
         
-        <p className="text-lg text-slate-300 leading-relaxed mb-10 font-body gv-animate-on-scroll delay-100">
+        <p className="text-lg text-slate-300 leading-relaxed mb-10 font-body gv-animate-on-scroll delay-200">
           Não espere o prazo acabar. Entre em contato agora mesmo para uma análise técnica gratuita do seu caso e descubra como podemos proteger o seu direito de dirigir.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 gv-animate-on-scroll delay-200">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 gv-animate-on-scroll delay-350">
           <a
             href={`https://wa.me/${siteContent.contact.phoneClean}?text=${encodeURIComponent(siteContent.contact.whatsappMessage)}`}
             target="_blank"

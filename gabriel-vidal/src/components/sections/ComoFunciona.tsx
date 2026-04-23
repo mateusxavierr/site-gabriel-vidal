@@ -17,8 +17,8 @@ export function ComoFunciona() {
 
   return (
     <section id="como-funciona" className="section-card p-8 md:p-16 lg:p-24 bg-white" ref={ref}>
-      <div className="mb-16 gv-animate-on-scroll text-center">
-        <h2 className="text-4xl md:text-5xl font-display font-semibold tracking-tight text-slate-900 mb-6">
+      <div className="mb-16 text-center">
+        <h2 className="text-4xl md:text-5xl font-display font-semibold tracking-tight text-slate-900 mb-6 gv-clip-on-scroll">
           {siteContent.comoFunciona.title}
         </h2>
       </div>
@@ -35,7 +35,7 @@ export function ComoFunciona() {
               <div 
                 key={index} 
                 className={`gv-animate-on-scroll flex flex-col md:flex-row items-center gap-8 ${isEven ? "md:flex-row-reverse" : ""}`}
-                style={{ animationDelay: `${index * 150}ms` }}
+                style={{ transitionDelay: `${index * 120}ms` }}
               >
                 {/* Espaço vazio para alinhar */}
                 <div className="hidden md:block w-1/2" />

@@ -229,3 +229,57 @@ h1, h2, h3, h4 {
 ::-webkit-scrollbar-track { background: var(--navy-bg); }
 ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.4); }
+
+/* ============================================
+   SISTEMA DE ANIMAÇÃO — SCROLL TRIGGERED
+   ============================================ */
+
+/* --- Base: elementos invisíveis antes de entrar na tela --- */
+.gv-animate-on-scroll {
+  opacity: 0;
+  transform: translateY(28px);
+  filter: blur(6px);
+  transition:
+    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- Ativado: quando .is-visible é adicionado pelo useInView --- */
+.gv-animate-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0px);
+}
+
+/* --- Clip reveal: texto nasce da esquerda para a direita --- */
+.gv-clip-on-scroll {
+  clip-path: inset(0 100% -10px 0); /* -10px embaixo para não cortar pernas de letras como p, g, j */
+  transition: clip-path 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gv-clip-on-scroll.is-visible {
+  clip-path: inset(0 0% -10px 0);
+}
+
+/* --- Delays para stagger (elementos em sequência) --- */
+.delay-100  { transition-delay: 0.10s; }
+.delay-200  { transition-delay: 0.20s; }
+.delay-300  { transition-delay: 0.30s; }
+.delay-350  { transition-delay: 0.35s; }
+.delay-400  { transition-delay: 0.40s; }
+.delay-500  { transition-delay: 0.50s; }
+.delay-600  { transition-delay: 0.60s; }
+.delay-700  { transition-delay: 0.70s; }
+
+/* --- Acessibilidade: respeita preferência do usuário --- */
+@media (prefers-reduced-motion: reduce) {
+  .gv-animate-on-scroll,
+  .gv-clip-on-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+}

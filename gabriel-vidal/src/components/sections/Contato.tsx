@@ -47,19 +47,19 @@ export function Contato() {
       <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 z-10 relative">
         
         {/* Left: Contact Info */}
-        <div className="lg:col-span-5 flex flex-col justify-center gv-animate-on-scroll">
-          <span className="text-xs font-label uppercase tracking-widest text-slate-400 mb-4 block">
+        <div className="lg:col-span-5 flex flex-col justify-center">
+          <span className="text-xs font-label uppercase tracking-widest text-slate-400 mb-4 block gv-animate-on-scroll">
             Fale Conosco
           </span>
-          <h2 className="text-4xl md:text-5xl font-display font-semibold tracking-tight text-white mb-6">
+          <h2 className="text-4xl md:text-5xl font-display font-semibold tracking-tight text-white mb-6 gv-clip-on-scroll delay-100">
             Contato
           </h2>
-          <p className="text-slate-300 font-body leading-relaxed mb-10">
+          <p className="text-slate-300 font-body leading-relaxed mb-10 gv-animate-on-scroll delay-200">
             Tem alguma dúvida ou precisa de ajuda urgente com a sua CNH? Preencha o formulário ou chame diretamente no WhatsApp.
           </p>
           
           <div className="space-y-6 mb-10">
-            <div>
+            <div className="gv-animate-on-scroll delay-300">
               <p className="text-[10px] font-label font-bold uppercase tracking-widest text-slate-500 mb-2">
                 Telefone / WhatsApp
               </p>
@@ -68,7 +68,7 @@ export function Contato() {
               </a>
             </div>
             
-            <div>
+            <div className="gv-animate-on-scroll delay-400">
               <p className="text-[10px] font-label font-bold uppercase tracking-widest text-slate-500 mb-2">
                 E-mail
               </p>
