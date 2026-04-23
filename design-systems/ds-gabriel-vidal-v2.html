@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gabriel Vidal Advocacia — Design System V2</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              blue: '#003388',      /* Azul principal extraído do site */
+              navy: '#04152d',      /* Azul marinho escuro para o fundo (derivado) */
+              gold: '#fcb900',      /* Dourado/ouro extraído do site */
+              goldhover: '#e0a500', /* Dourado escuro para hover */
+              light: '#f8fafc',
+            },
+            surface: {
+              card: '#ffffff',
+              dark: '#0a192f',
+            }
+          },
+          fontFamily: {
+            display: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            body: ['Inter', 'system-ui', 'sans-serif'],
+            label: ['"Space Mono"', 'monospace'],
+          },
+          boxShadow: {
+            card: '0 10px 30px -5px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04)',
+            cardhover: '0 20px 40px -10px rgba(0, 0, 0, 0.12), 0 10px 15px -5px rgba(0, 0, 0, 0.08)',
+            header: '0 4px 20px rgba(0, 0, 0, 0.05)',
+          },
+          borderRadius: {
+            '2xl': '1rem',
+            '3xl': '1.5rem',
+          }
+        },
+      },
+    };
+  </script>
+  
+  <style>
+    :root {
+      --navy-bg: #04152d;
+      --card-bg: #ffffff;
+      --card-radius: 1.5rem;
+    }
+    
+    body { 
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: var(--navy-bg);
+      /* O fundo da página é o azul marinho. As seções são os cards flutuantes. */
+      overflow-x: hidden;
+    }
+    
+    h1, h2, h3, h4, h5, h6 { 
+      font-family: "Plus Jakarta Sans", system-ui, sans-serif; 
+    }
+
+    /* Estrutura de Card Flutuante por Seção */
+    .section-card {
+      background-color: var(--card-bg);
+      border-radius: var(--card-radius);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      margin: 2rem 4%; /* Margem lateral em desktop */
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .section-card.dark {
+      background-color: theme('colors.surface.dark');
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .section-card {
+        margin: 1rem 12px; /* Margem reduzida no mobile */
+        border-radius: 1rem;
+      }
+    }
+
+    /* Mask para o fade lateral do hero */
+    .hero-gif-mask {
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 40%);
+      mask-image: linear-gradient(to right, transparent 0%, black 40%);
+    }
+
+    @media (max-width: 1024px) {
+      .hero-gif-mask {
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 40%);
+        mask-image: linear-gradient(to bottom, transparent 0%, black 40%);
+      }
+    }
+
+    /* Animações VITALIS (ds-white-medical) */
+    @keyframes reveal-up {
+      0% { clip-path: inset(100% 0 0 0); transform: translateY(20px); opacity: 0; }
+      100% { clip-path: inset(0 0 0 0); transform: translateY(0); opacity: 1; }
+    }
+    
+    @keyframes fade-in-up {
+      0% { transform: translateY(20px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .animate-reveal {
+      opacity: 0;
+      animation: reveal-up 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .scroll-reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Staggering para multiplos elementos */
+    .delay-100 { animation-delay: 0.1s; transition-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; transition-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; transition-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; transition-delay: 0.4s; }
+
+    /* Acessibilidade - reduz movimento se solicitado */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      ::before,
+      ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+        opacity: 1 !important;
+        transform: none !important;
+        clip-path: none !important;
+      }
+    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--navy-bg);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-brand-gold/30 selection:text-white">
+
+  <!-- ============================================== -->
+  <!-- HEADER FLUTUANTE (financial-infra style)       -->
+  <!-- ============================================== -->
+  <div class="fixed top-4 left-0 right-0 z-50 flex justify-center px-4 w-full pointer-events-none">
+    <header id="main-header" class="pointer-events-auto bg-white/90 backdrop-blur-md border border-slate-200/50 rounded-2xl shadow-header px-6 py-3 flex items-center justify-between w-full max-w-5xl transition-all duration-300">
+      
+      <!-- Logo -->
+      <div class="font-display font-bold text-brand-blue tracking-tight flex flex-col">
+        <span class="leading-none text-lg">Gabriel Vidal</span>
+        <span class="text-[10px] text-slate-500 uppercase tracking-widest font-label mt-0.5">Advocacia de Trânsito</span>
+      </div>
+
+      <!-- Links (Desktop) -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+        <a href="#cores" class="hover:text-brand-blue transition-colors">Cores</a>
+        <a href="#tipografia" class="hover:text-brand-blue transition-colors">Tipografia</a>
+        <a href="#cards" class="hover:text-brand-blue transition-colors">Cards</a>
+        <a href="#servicos" class="hover:text-brand-blue transition-colors">Serviços</a>
+      </nav>
+
+      <!-- CTA -->
+      <a href="#contato" class="hidden sm:inline-flex items-center justify-center bg-brand-gold text-brand-navy px-5 py-2.5 rounded-full text-sm font-semibold shadow-md hover:bg-brand-goldhover hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 active:scale-95">
+        Falar com advogado
+      </a>
+      
+      <!-- Mobile Menu Toggle -->
+      <button class="md:hidden text-brand-blue p-2 rounded-lg hover:bg-slate-100">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </header>
+  </div>
+
+  <main class="pt-24 pb-12 w-full">
+
+    <!-- ============================================== -->
+    <!-- HERO: SPLIT LAYOUT COM GIF FADE                -->
+    <!-- ============================================== -->
+    <section class="section-card flex flex-col lg:flex-row min-h-[85vh] lg:min-h-[75vh]">
+      
+      <!-- Lado Esquerdo: Texto (60%) -->
+      <div class="w-full lg:w-[60%] p-8 md:p-16 lg:p-24 flex flex-col justify-center z-10 relative bg-white">
+        
+        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-brand-blue text-[10px] font-bold uppercase tracking-widest mb-6 w-fit animate-reveal delay-100">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+          OAB/PE 64.194
+        </span>
+        
+        <h1 class="text-4xl md:text-6xl lg:text-[4rem] font-semibold text-slate-900 tracking-tight leading-[1.05] mb-6 animate-reveal delay-200">
+          Defesa especializada em <br class="hidden md:block" />
+          <span class="text-brand-blue">Direito de Trânsito.</span>
+        </h1>
+        
+        <p class="text-lg text-slate-600 leading-relaxed mb-10 max-w-lg animate-reveal delay-300">
+          Proteja seu direito de dirigir com estratégias jurídicas precisas. Atuação técnica contra multas indevidas, suspensão e cassação da CNH.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 animate-reveal delay-400">
+          <a href="#" class="inline-flex items-center justify-center gap-2 bg-brand-gold text-brand-navy px-8 py-4 rounded-full text-sm font-semibold shadow-lg hover:bg-brand-goldhover hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            Análise Gratuita do Caso
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+          <a href="#" class="inline-flex items-center justify-center gap-2 bg-white text-brand-blue border border-slate-200 px-8 py-4 rounded-full text-sm font-semibold hover:bg-slate-50 hover:border-slate-300 transition-all duration-300">
+            Conhecer Serviços
+          </a>
+        </div>
+        
+      </div>
+      
+      <!-- Lado Direito: GIF com Fade (40%) -->
+      <div class="w-full lg:w-[40%] h-[400px] lg:h-auto relative bg-slate-900">
+        <!-- O GIF e a máscara de transição -->
+        <!-- Substituir src="https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=2070&auto=format&fit=crop" pelo gif real em produção -->
+        <img src="https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=2070&auto=format&fit=crop" 
+             alt="Trânsito urbano" 
+             class="absolute inset-0 w-full h-full object-cover hero-gif-mask opacity-80" />
+        
+        <!-- Overlay azul sutil para integrar com a marca -->
+        <div class="absolute inset-0 bg-brand-blue/20 mix-blend-multiply pointer-events-none"></div>
+      </div>
+      
+    </section>
+
+    <!-- ============================================== -->
+    <!-- DS: PALETA DE CORES                            -->
+    <!-- ============================================== -->
+    <section id="cores" class="section-card p-8 md:p-16 lg:p-24">
+      <p class="font-label text-[10px] font-semibold uppercase tracking-[0.1em] text-slate-400 mb-4 scroll-reveal">Design System — Parte 1</p>
+      <h2 class="text-3xl md:text-4xl font-semibold tracking-tight text-slate-900 mb-12 scroll-reveal">Paleta de Cores</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Brand Colors -->
+        <div class="space-y-4 scroll-reveal delay-100">
+          <h3 class="text-sm font-semibold text-slate-900 border-b border-slate-100 pb-2">Identidade</h3>
+          
+          <div class="flex gap-4 items-center">
+            <div class="w-16 h-16 rounded-xl bg-brand-blue shadow-sm border border-slate-100"></div>
+            <div>
+              <p class="font-medium text-slate-900">Azul Principal</p>
+              <p class="font-mono text-xs text-slate-500">bg-brand-blue / #003388</p>
+            </div>
+          </div>
+          
+          <div class="flex gap-4 items-center">
+            <div class="w-16 h-16 rounded-xl bg-brand-gold shadow-sm border border-slate-100"></div>
+            <div>
+              <p class="font-medium text-slate-900">Ouro / Accent</p>
+              <p class="font-mono text-xs text-slate-500">bg-brand-gold / #fcb900</p>
+            </div>
+          </div>
+          
+        </div>
+
+        <!-- Surfaces -->
+        <div class="space-y-4 scroll-reveal delay-200">
+          <h3 class="text-sm font-semibold text-slate-900 border-b border-slate-100 pb-2">Superfícies</h3>
+          
+          <div class="flex gap-4 items-center">
+            <div class="w-16 h-16 rounded-xl bg-brand-navy shadow-sm border border-slate-700"></div>
+            <div>
+              <p class="font-medium text-slate-900">Fundo Site (Navy)</p>
+              <p class="font-mono text-xs text-slate-500">bg-brand-navy / #04152d</p>
+            </div>
+          </div>
+          
+          <div class="flex gap-4 items-center">
+            <div class="w-16 h-16 rounded-xl bg-white shadow-sm border border-slate-200"></div>
+            <div>
+              <p class="font-medium text-slate-900">Card Claro</p>
+              <p class="font-mono text-xs text-slate-500">bg-white / #ffffff</p>
+            </div>
+          </div>
+          
+          <div class="flex gap-4 items-center">
+            <div class="w-16 h-16 rounded-xl bg-surface-dark shadow-sm border border-slate-800"></div>
+            <div>
+              <p class="font-medium text-slate-900">Card Escuro</p>
+              <p class="font-mono text-xs text-slate-500">bg-surface-dark / #0a192f</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Typography Colors -->
+        <div class="space-y-4 scroll-reveal delay-300">
+          <h3 class="text-sm font-semibold text-slate-900 border-b border-slate-100 pb-2">Tipografia (Texto)</h3>
+          
+          <div class="flex gap-4 items-center">
+            <div class="w-16 h-16 rounded-xl bg-slate-900 shadow-sm flex items-center justify-center text-white text-xl font-serif">Aa</div>
+            <div>
+              <p class="font-medium text-slate-900">Título / Destaque</p>
+              <p class="font-mono text-xs text-slate-500">text-slate-900 / #0f172a</p>
+            </div>
+          </div>
+          
+          <div class="flex gap-4 items-center">
+            <div class="w-16 h-16 rounded-xl bg-slate-600 shadow-sm flex items-center justify-center text-white text-xl font-serif">Aa</div>
+            <div>
+              <p class="font-medium text-slate-900">Corpo / Descrição</p>
+              <p class="font-mono text-xs text-slate-500">text-slate-600 / #475569</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- DS: TIPOGRAFIA E ANIMAÇÃO                      -->
+    <!-- ============================================== -->
+    <section id="tipografia" class="section-card p-8 md:p-16 lg:p-24">
+      <p class="font-label text-[10px] font-semibold uppercase tracking-[0.1em] text-slate-400 mb-4 scroll-reveal">Design System — Parte 2</p>
+      <h2 class="text-3xl md:text-4xl font-semibold tracking-tight text-slate-900 mb-12 scroll-reveal">Tipografia & Animação de Texto</h2>
+      
+      <div class="space-y-12">
+        <div class="grid md:grid-cols-12 gap-4 border-b border-slate-100 pb-8 scroll-reveal">
+          <div class="md:col-span-3 text-sm text-slate-500 flex flex-col justify-center">
+            H1 / Hero <br/>
+            <span class="text-xs text-brand-blue font-medium mt-1">Animação Reveal (Scroll)</span>
+          </div>
+          <div class="md:col-span-7">
+            <!-- Ao adicionar scroll-reveal aqui, ele refaz a animação ao entrar na tela -->
+            <p class="text-5xl lg:text-6xl font-semibold tracking-tight text-slate-900 leading-[1.05] scroll-reveal delay-100">
+              Direito de <span class="text-brand-blue">Trânsito.</span>
+            </p>
+          </div>
+          <div class="md:col-span-2 text-right font-mono text-xs text-slate-400 flex flex-col justify-center">
+            Plus Jakarta 600<br/>60px / 1.05
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-12 gap-4 border-b border-slate-100 pb-8 scroll-reveal">
+          <div class="md:col-span-3 text-sm text-slate-500 flex flex-col justify-center">H2 / Seção</div>
+          <div class="md:col-span-7"><h3 class="text-4xl lg:text-5xl font-semibold tracking-tight text-slate-900 leading-tight">Áreas de atuação</h3></div>
+          <div class="md:col-span-2 text-right font-mono text-xs text-slate-400 flex flex-col justify-center">Plus Jakarta 600<br/>48px / 1.1</div>
+        </div>
+
+        <div class="grid md:grid-cols-12 gap-4 border-b border-slate-100 pb-8 scroll-reveal">
+          <div class="md:col-span-3 text-sm text-slate-500 flex flex-col justify-center">H3 / Card Title</div>
+          <div class="md:col-span-7"><h4 class="text-xl font-semibold tracking-tight text-slate-900">Suspensão do Direito de Dirigir</h4></div>
+          <div class="md:col-span-2 text-right font-mono text-xs text-slate-400 flex flex-col justify-center">Plus Jakarta 600<br/>20px / 1.25</div>
+        </div>
+
+        <div class="grid md:grid-cols-12 gap-4 border-b border-slate-100 pb-8 scroll-reveal">
+          <div class="md:col-span-3 text-sm text-slate-500 flex flex-col justify-center">Body Large</div>
+          <div class="md:col-span-7"><p class="text-lg font-normal leading-relaxed text-slate-600">A GV Multas atua em todo o Brasil com soluções técnicas e personalizadas para proteger o direito de dirigir.</p></div>
+          <div class="md:col-span-2 text-right font-mono text-xs text-slate-400 flex flex-col justify-center">Inter 400<br/>18px / 1.6</div>
+        </div>
+
+        <div class="grid md:grid-cols-12 gap-4 pb-8 scroll-reveal">
+          <div class="md:col-span-3 text-sm text-slate-500 flex flex-col justify-center">Label / Badge</div>
+          <div class="md:col-span-7"><p class="font-label text-[10px] font-bold uppercase tracking-widest text-brand-blue">OAB/PE 64.194</p></div>
+          <div class="md:col-span-2 text-right font-mono text-xs text-slate-400 flex flex-col justify-center">Space Mono 700<br/>10px / 1.0</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- DS: SERVIÇOS E CARDS (financial-infra style)   -->
+    <!-- ============================================== -->
+    <section id="servicos" class="section-card p-8 md:p-16 lg:p-24">
+      
+      <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16 gap-8 scroll-reveal">
+        <div>
+          <p class="font-label text-[10px] font-semibold uppercase tracking-[0.1em] text-brand-blue mb-4">Especialidades</p>
+          <h2 class="text-4xl md:text-5xl text-slate-900 leading-[1.1] font-semibold tracking-tight">
+            Veja como poderei <br class="hidden md:block"/> te ajudar
+          </h2>
+        </div>
+        <p class="text-slate-600 max-w-sm leading-relaxed">
+          Atuação ágil e pautada na legislação de trânsito, revertendo processos injustos.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Card Serviço 1 -->
+        <article class="bg-slate-50 p-8 rounded-3xl border border-slate-200 hover:border-brand-blue/30 transition-all duration-500 group hover:-translate-y-1 hover:shadow-cardhover scroll-reveal delay-100 flex flex-col h-full">
+          <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center border border-slate-200 mb-6 shadow-sm group-hover:scale-110 transition-transform duration-500">
+            <i data-lucide="file-warning" class="w-6 h-6 text-brand-blue"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-slate-900 mb-3 tracking-tight">Defesa de Multas</h3>
+          <p class="text-slate-600 text-sm leading-relaxed mb-8 flex-1">
+            Análise técnica das autuações e elaboração de recursos administrativos para anular multas indevidas.
+          </p>
+          <a href="#" class="inline-flex items-center text-sm font-semibold text-brand-blue group-hover:text-brand-navy transition-colors">
+            Saiba mais <i data-lucide="arrow-right" class="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1"></i>
+          </a>
+        </article>
+
+        <!-- Card Serviço 2 -->
+        <article class="bg-slate-50 p-8 rounded-3xl border border-slate-200 hover:border-brand-blue/30 transition-all duration-500 group hover:-translate-y-1 hover:shadow-cardhover scroll-reveal delay-200 flex flex-col h-full">
+          <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center border border-slate-200 mb-6 shadow-sm group-hover:scale-110 transition-transform duration-500">
+            <i data-lucide="ban" class="w-6 h-6 text-brand-blue"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-slate-900 mb-3 tracking-tight">Suspensão da CNH</h3>
+          <p class="text-slate-600 text-sm leading-relaxed mb-8 flex-1">
+            Defesa completa para evitar a suspensão da CNH e preservar o seu direito de conduzir.
+          </p>
+          <a href="#" class="inline-flex items-center text-sm font-semibold text-brand-blue group-hover:text-brand-navy transition-colors">
+            Saiba mais <i data-lucide="arrow-right" class="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1"></i>
+          </a>
+        </article>
+
+        <!-- Card Serviço 3 -->
+        <article class="bg-slate-50 p-8 rounded-3xl border border-slate-200 hover:border-brand-blue/30 transition-all duration-500 group hover:-translate-y-1 hover:shadow-cardhover scroll-reveal delay-300 flex flex-col h-full">
+          <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center border border-slate-200 mb-6 shadow-sm group-hover:scale-110 transition-transform duration-500">
+            <i data-lucide="gavel" class="w-6 h-6 text-brand-blue"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-slate-900 mb-3 tracking-tight">Cassação da CNH</h3>
+          <p class="text-slate-600 text-sm leading-relaxed mb-8 flex-1">
+            Atuação estratégica para reverter processos de cassação e restabelecer o direito de dirigir.
+          </p>
+          <a href="#" class="inline-flex items-center text-sm font-semibold text-brand-blue group-hover:text-brand-navy transition-colors">
+            Saiba mais <i data-lucide="arrow-right" class="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1"></i>
+          </a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- DEPOIMENTO / CTA ESCURO                        -->
+    <!-- ============================================== -->
+    <section id="cards" class="section-card dark p-8 md:p-16 lg:p-24 relative overflow-hidden">
+      <!-- Glow effect no card escuro -->
+      <div class="absolute top-0 right-0 w-96 h-96 bg-brand-blue/30 rounded-full blur-[100px] pointer-events-none translate-x-1/3 -translate-y-1/3"></div>
+      
+      <div class="relative z-10 grid lg:grid-cols-2 gap-16 items-center">
+        
+        <div class="scroll-reveal delay-100">
+          <p class="font-label text-[10px] font-semibold uppercase tracking-[0.1em] text-brand-gold mb-6">Testemunho e Autoridade</p>
+          <p class="text-2xl md:text-3xl font-medium text-white leading-relaxed mb-8">
+            "Seu caso será acompanhado e devidamente esclarecido a você com total transparência e responsabilidade. Meu compromisso é proteger seu direito de dirigir."
+          </p>
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center">
+              <i data-lucide="user" class="w-6 h-6 text-slate-400"></i>
+            </div>
+            <div>
+              <p class="text-white font-semibold">Gabriel Vidal</p>
+              <p class="text-sm text-slate-400">OAB/PE 64.194</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulario ou CTA Box -->
+        <div class="bg-surface-dark border border-slate-700/50 p-8 rounded-3xl shadow-2xl scroll-reveal delay-200 relative">
+          <h3 class="text-2xl font-semibold text-white mb-2">Precisa de ajuda urgente?</h3>
+          <p class="text-slate-400 text-sm mb-8">Envie sua dúvida e entraremos em contato o mais rápido possível.</p>
+          
+          <form class="space-y-4" onsubmit="event.preventDefault();">
+            <div>
+              <label class="block text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-2 font-label" for="nome">Nome Completo</label>
+              <input type="text" id="nome" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all" placeholder="Seu nome" />
+            </div>
+            <div>
+              <label class="block text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-2 font-label" for="msg">Sua Situação</label>
+              <textarea id="msg" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all resize-none" placeholder="Ex: Recebi notificação de suspensão..."></textarea>
+            </div>
+            <button type="submit" class="w-full bg-brand-gold text-brand-navy font-semibold py-3.5 rounded-xl hover:bg-brand-goldhover transition-colors mt-2 shadow-[0_0_20px_rgba(252,185,0,0.3)]">
+              Solicitar Análise
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- DOCUMENTAÇÃO DE REGRAS                         -->
+    <!-- ============================================== -->
+    <section class="section-card p-8 md:p-16 lg:p-24 bg-white">
+      <h2 class="text-3xl font-semibold tracking-tight text-slate-900 mb-8 scroll-reveal">Regras do Design System</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm scroll-reveal delay-100">
+        <div class="border border-slate-100 rounded-2xl p-6 bg-slate-50">
+          <h3 class="font-semibold text-brand-blue mb-4 flex items-center gap-2">
+            <i data-lucide="check-circle-2" class="w-5 h-5"></i> O que FAZER
+          </h3>
+          <ul class="space-y-3 text-slate-600">
+            <li class="flex items-start gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-blue mt-1.5 shrink-0"></span>
+              Manter o fundo da página (`body`) sempre em navy dark (`#04152d`).
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-blue mt-1.5 shrink-0"></span>
+              Envolver seções (hero, serviços, faq, footer) em `.section-card`.
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-blue mt-1.5 shrink-0"></span>
+              Usar a cor `brand-gold` (#fcb900) apenas para botões primários e detalhes de muito destaque (accent).
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-blue mt-1.5 shrink-0"></span>
+              Utilizar `Plus Jakarta Sans` para títulos e numerais de destaque.
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-blue mt-1.5 shrink-0"></span>
+              Aplicar as classes `scroll-reveal` em todos os elementos de texto e cards para animar na rolagem.
+            </li>
+          </ul>
+        </div>
+        
+        <div class="border border-slate-100 rounded-2xl p-6 bg-slate-50">
+          <h3 class="font-semibold text-red-600 mb-4 flex items-center gap-2">
+            <i data-lucide="x-circle" class="w-5 h-5"></i> O que NÃO FAZER
+          </h3>
+          <ul class="space-y-3 text-slate-600">
+            <li class="flex items-start gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5 shrink-0"></span>
+              Nunca usar cores fora da paleta (evitar verdes neon, roxos, etc). O tema é jurídico premium.
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5 shrink-0"></span>
+              Não colocar sombras coloridas ou texturas tech/gamer nos cards.
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5 shrink-0"></span>
+              Não colar os cards na borda da tela em desktop (sempre manter o respiro mostrando o fundo navy).
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5 shrink-0"></span>
+              Não alterar o nome, credenciais (OAB) ou áreas de atuação nos textos do site real.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    // Inicializar ícones
+    lucide.createIcons();
+
+    // Scroll Reveal Animation com Intersection Observer
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.15
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          // Descomente abaixo se quiser animar apenas 1 vez:
+          // observer.unobserve(entry.target); 
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.scroll-reveal').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Header Flutuante Efeito ao Rolar
+    const header = document.getElementById('main-header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('shadow-lg', 'bg-white/95');
+        header.classList.remove('bg-white/90', 'shadow-header');
+      } else {
+        header.classList.remove('shadow-lg', 'bg-white/95');
+        header.classList.add('bg-white/90', 'shadow-header');
+      }
+    });
+  </script>
+</body>
+</html>
