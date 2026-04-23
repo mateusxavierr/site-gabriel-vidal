@@ -1,6 +1,7 @@
 "use client"
 
 import { siteContent } from "@/content/site"
+import { withBasePath } from "@/lib/basePath"
 import { useInView } from "@/hooks/useInView"
 import { ArrowRight } from "lucide-react"
 
@@ -24,7 +25,7 @@ export function Hero() {
           playsInline 
           className="w-full h-full object-cover object-center opacity-10 lg:opacity-100 transition-opacity duration-1000"
         >
-          <source src="/videos/video-transito.mp4" type="video/mp4" />
+          <source src={withBasePath("/videos/video-transito.mp4")} type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent w-full lg:w-[40%]" />
       </div>

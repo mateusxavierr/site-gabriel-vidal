@@ -1,6 +1,7 @@
 "use client"
 
 import { siteContent } from "@/content/site"
+import { withBasePath } from "@/lib/basePath"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import Image from "next/image"
@@ -28,7 +29,7 @@ export function Header() {
       <nav className="pointer-events-auto bg-brand-navy/90 backdrop-blur-md border border-white/10 rounded-full py-2 px-3 flex items-center gap-6 text-sm shadow-header">
         {/* Logo/Badge */}
         <Link href="#hero" className="flex items-center justify-center hover:scale-105 transition-transform mr-2">
-          <Image src="/images/logo-gv-nobg.png" alt="Gabriel Vidal Advocacia" width={180} height={40} className="h-8 w-auto object-contain" />
+          <Image src={withBasePath("/images/logo-gv-nobg.png")} alt="Gabriel Vidal Advocacia" width={180} height={40} className="h-8 w-auto object-contain" />
         </Link>
         
         {/* Links Desktop */}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Lora, Playfair_Display } from "next/font/google";
 import { siteContent } from "@/content/site";
+import { withBasePath } from "@/lib/basePath";
 import "./globals.css";
 
 import { Header } from "@/components/layout/Header";
@@ -27,9 +28,9 @@ export const metadata: Metadata = {
   title: siteContent.meta.title,
   description: siteContent.meta.description,
   icons: {
-    icon: [{ url: "/images/logo-gv-notext.png", type: "image/png" }],
-    shortcut: "/images/logo-gv-notext.png",
-    apple: "/images/logo-gv-notext.png",
+    icon: [{ url: withBasePath("/images/logo-gv-notext.png"), type: "image/png" }],
+    shortcut: withBasePath("/images/logo-gv-notext.png"),
+    apple: withBasePath("/images/logo-gv-notext.png"),
   },
   openGraph: {
     title: "Gabriel Vidal Advocacia",

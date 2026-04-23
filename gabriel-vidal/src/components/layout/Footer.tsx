@@ -1,4 +1,5 @@
 import { siteContent } from "@/content/site"
+import { withBasePath } from "@/lib/basePath"
 import { Mail, Phone } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -10,7 +11,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="md:col-span-2">
             <Link href="#hero" className="inline-block mb-6 hover:opacity-80 transition-opacity">
-              <Image src="/images/logo-gv-nobg.png" alt="Gabriel Vidal Advocacia" width={360} height={90} className="h-16 md:h-20 w-auto max-w-full object-contain" />
+              <Image src={withBasePath("/images/logo-gv-nobg.png")} alt="Gabriel Vidal Advocacia" width={360} height={90} className="h-16 md:h-20 w-auto max-w-full object-contain" />
             </Link>
             <p className="text-slate-400 font-body mb-6 max-w-md">
               Soluções técnicas e personalizadas para proteger o seu direito de dirigir em todo o território nacional.

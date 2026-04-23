@@ -1,6 +1,7 @@
 "use client"
 
 import { siteContent } from "@/content/site"
+import { withBasePath } from "@/lib/basePath"
 import { useInView } from "@/hooks/useInView"
 import Image from "next/image"
 import { ArrowRight, User } from "lucide-react"
@@ -28,7 +29,7 @@ export function Sobre() {
         <div className="lg:col-span-5 flex flex-col justify-center order-2 lg:order-1 gv-animate-on-scroll">
           <div className="relative w-full aspect-[4/3] lg:aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-surface-dark">
             <Image
-              src="/images/vidal.jpeg"
+              src={withBasePath("/images/vidal.jpeg")}
               alt="Gabriel Vidal - Advogado de Trânsito"
               fill
               className="object-cover object-top"
